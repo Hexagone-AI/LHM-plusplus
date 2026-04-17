@@ -1151,7 +1151,7 @@ class ModelHumanA4OLRM(nn.Module):
                 # predict_rgbs = predict_rgbs * predict_masks + (1-predict_masks)
 
                 scale_x, scale_y, offset_x, offset_y = offset_list[view_idx]
-                predict_rgb = (predict_rgbs[0, 0].detach().cpu().numpy() * 255).astype(
+                predict_rgb = (predict_rgbs[0, 0].detach().cpu().float().numpy() * 255).astype(
                     np.uint8
                 )
                 predict_rgb = cv2.resize(
@@ -1161,7 +1161,7 @@ class ModelHumanA4OLRM(nn.Module):
                 )
 
                 predict_mask = (
-                    predict_masks[0, 0].detach().cpu().numpy() * 255
+                    predict_masks[0, 0].detach().cpu().float().numpy() * 255
                 ).astype(np.uint8)[..., 0]
                 predict_mask = cv2.resize(
                     predict_mask,
@@ -1170,7 +1170,7 @@ class ModelHumanA4OLRM(nn.Module):
                 )
 
                 _h, _w = predict_rgb.shape[:2]
-                boards = (output_rgb.clone().detach().cpu().numpy() * 255).astype(
+                boards = (output_rgb.clone().detach().cpu().float().numpy() * 255).astype(
                     np.uint8
                 )
                 boards[offset_y : offset_y + _h, offset_x : offset_x + _w] = predict_rgb
@@ -1229,11 +1229,11 @@ class ModelHumanA4OLRM(nn.Module):
                 else:
                     raise NotImplementedError
 
-                predict_rgb = (predict_rgbs[0, 0].detach().cpu().numpy() * 255).astype(
+                predict_rgb = (predict_rgbs[0, 0].detach().cpu().float().numpy() * 255).astype(
                     np.uint8
                 )
                 predict_mask = (
-                    predict_masks[0, 0].detach().cpu().numpy() * 255
+                    predict_masks[0, 0].detach().cpu().float().numpy() * 255
                 ).astype(np.uint8)[..., 0]
 
                 output.append(
@@ -1244,7 +1244,6 @@ class ModelHumanA4OLRM(nn.Module):
                 )
 
             del render_results
-            torch.cuda.empty_cache()
 
         pred_rgbs = torch.cat(output, dim=0)
         pred_masks = torch.cat(output_mask, dim=0)
