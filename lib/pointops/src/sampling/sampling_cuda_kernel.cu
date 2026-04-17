@@ -133,39 +133,39 @@ void furthestsampling_cuda_launcher(int b, int n, const float *xyz, const int *o
 	unsigned int n_threads = opt_n_threads(n);
 	switch (n_threads) {
         case 1024:
-            furthestsampling_cuda_kernel<1024><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<1024><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 512:
-            furthestsampling_cuda_kernel<512><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<512><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 256:
-            furthestsampling_cuda_kernel<256><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<256><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 128:
-            furthestsampling_cuda_kernel<128><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<128><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 64:
-            furthestsampling_cuda_kernel<64><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<64><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 32:
-            furthestsampling_cuda_kernel<32><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<32><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 16:
-            furthestsampling_cuda_kernel<16><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<16><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 8:
-            furthestsampling_cuda_kernel<8><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<8><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 4:
-            furthestsampling_cuda_kernel<4><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<4><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 2:
-            furthestsampling_cuda_kernel<2><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<2><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         case 1:
-            furthestsampling_cuda_kernel<1><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<1><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
             break;
         default:
-            furthestsampling_cuda_kernel<512><<<b, n_threads, 0>>>(xyz, offset, new_offset, tmp, idx);
+            furthestsampling_cuda_kernel<512><<<b, n_threads, 0, at::cuda::getCurrentCUDAStream()>>>(xyz, offset, new_offset, tmp, idx);
     }
 }

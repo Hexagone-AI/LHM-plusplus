@@ -4,6 +4,14 @@
 #include <cmath>
 #include <algorithm>
 
+// at::cuda::getCurrentCUDAStream() lets every kernel launch respect
+// the caller's torch.cuda.stream(...) context. Without this, the
+// kernels in this extension always run on CUDA's legacy default
+// stream regardless of the PyTorch Python-side stream context, which
+// breaks any code that relies on stream isolation for correctness
+// (e.g. parallel tracks with per-worker streams).
+#include <ATen/cuda/CUDAContext.h>
+
 #define TOTAL_THREADS 1024
 #define THREADS_PER_BLOCK 256
 #define DIVUP(m, n) ((m) / (n) + ((m) % (n) > 0))

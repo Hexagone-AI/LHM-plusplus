@@ -112,5 +112,5 @@ void knnquery_cuda_launcher(int m, int nsample, const float *xyz, const float *n
     // input: new_xyz: (m, 3), xyz: (n, 3), idx: (m, nsample)
     dim3 blocks(DIVUP(m, THREADS_PER_BLOCK));
     dim3 threads(THREADS_PER_BLOCK);
-    knnquery_cuda_kernel<<<blocks, threads, 0>>>(m, nsample, xyz, new_xyz, offset, new_offset, idx, dist2);
+    knnquery_cuda_kernel<<<blocks, threads, 0, at::cuda::getCurrentCUDAStream()>>>(m, nsample, xyz, new_xyz, offset, new_offset, idx, dist2);
 }

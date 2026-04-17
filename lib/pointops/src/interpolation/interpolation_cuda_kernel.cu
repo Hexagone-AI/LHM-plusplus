@@ -36,12 +36,12 @@ void interpolation_forward_cuda_launcher(int n, int c, int k, const float *input
     // input: input: (m, c), idx: (n, k), weight: (n, k), output: output (n, c)
     dim3 blocks(DIVUP(n * c, THREADS_PER_BLOCK));
     dim3 threads(THREADS_PER_BLOCK);
-    interpolation_forward_cuda_kernel<<<blocks, threads, 0>>>(n, c, k, input, idx, weight, output);
+    interpolation_forward_cuda_kernel<<<blocks, threads, 0, at::cuda::getCurrentCUDAStream()>>>(n, c, k, input, idx, weight, output);
 }
 
 void interpolation_backward_cuda_launcher(int n, int c, int k, const float *grad_output, const int *idx, const float *weight, float *grad_input) {
     // input: grad_output: (n, c), idx: (n, k), weight: (n, k), output: grad_input (m, c)
     dim3 blocks(DIVUP(n * c, THREADS_PER_BLOCK));
     dim3 threads(THREADS_PER_BLOCK);
-    interpolation_backward_cuda_kernel<<<blocks, threads, 0>>>(n, c, k, grad_output, idx, weight, grad_input);
+    interpolation_backward_cuda_kernel<<<blocks, threads, 0, at::cuda::getCurrentCUDAStream()>>>(n, c, k, grad_output, idx, weight, grad_input);
 }
